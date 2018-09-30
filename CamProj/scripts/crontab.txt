@@ -1,8 +1,19 @@
+################################################################################
+#Author:                Joe Kirkham
+#Date Created:          2018/09/30
+#Description:           This script automatically runs scripts on startup, for 
+#			the purpose coordinating the automatic operation of the
+#			dashcam.
+#
+#			This script derived from GitHub user & project:
+#			 vijay2552007/CarCam
+###############################################################################
+
 #To record from USB Cam
-@reboot /home/pi/CamProj/scripts/shell/record.sh &
+@reboot /home/pi/CamProj/repo/scripts/shell/record.sh &
 
 #To monitor Ignition 12V and shutdown system gracefully
-@reboot sudo python /home/pi/CamProj/scripts/python/Monitor12V.py &
+@reboot sudo python /home/pi/repo/CamProj/scripts/python/Monitor12V.py &
 
 #Delete any video/log files older than 30 days
-@reboot sudo /home/pi/CamProj/scripts/shell/deletearch.sh &
+@reboot sudo /home/pi/repo/CamProj/scripts/shell/deletearch.sh &

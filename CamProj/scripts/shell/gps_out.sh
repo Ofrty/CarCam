@@ -3,9 +3,8 @@
 #********************************************************
 #*Author:		 Joe Kirkham
 #*Date Created:		2018/09/08
-#*Date Modified:	
-#*Description: 		This test script simply prints out
-#			lat, lon, and speed  info to stdout.
+#*Description: 		This test script simply sends GPS
+#			lat, lon, and speed info to stdout.
 #********************************************************
 
 #read gps data right now; assumption, GPS is already active
@@ -19,9 +18,11 @@ latStartMinusTwo=${raw#*$latStr}
 #account for negative
 if [ ${latStartMinusTwo:2:1} = "-" ]
 then
-	lat=${latStartMinusTwo:2:13}
+	lat=${latStartMinusTwo:3:12}
+	latRef=S
 else
 	lat=${latStartMinusTwo:2:12}
+	latRef=N
 fi
 
 #read longitude
@@ -29,9 +30,11 @@ lonStartMinusTwo=${raw#*$lonStr}
 #account for negative
 if [ ${lonStartMinusTwo:2:1} = "-" ]
 then
-	lon=${lonStartMinusTwo:2:13}
+	lon=${lonStartMinusTwo:3:12}
+	lonRef=W
 else
 	lon=${lonStartMinusTwo:2:12}
+	lonRef=E
 fi
 
 #read speed
@@ -40,5 +43,7 @@ speed=${speedStartMinusTwo:2:5}
 
 #print to stdout
 echo "Latitude:   " $lat
-echo "Longtiude: " $lon
+echo "LatRef:     " $latRef
+echo "Longitude:  " $lon
+echo "LonRef:     " $lonRef
 echo "Speed:      " $speed
