@@ -30,15 +30,15 @@ do
 	fileName=$filePath"dashcam_"$curTime.avi
 
 	#create temp file for GPS info
-	touch tempGPS.txt
-	./_temp/gps_out.sh > tempGPS.txt
+	touch _temp/tempGPS.txt
+	./gps_out.sh > _temp/tempGPS.txt
 
 	#get gps info via subshell
-	curLat=`cat tempGPS.txt | grep "^Latitude" | tr -s ' ' | cut -d ' ' -f 2`
-	curLatRef=`cat tempGPS.txt | grep "^LatRef" | tr -s ' ' | cut -d ' ' -f 2`
-	curLon=`cat tempGPS.txt | grep "^Longitude" | tr -s ' ' | cut -d ' ' -f 2`
-	curLonRef=`cat tempGPS.txt | grep "^LonRef" | tr -s ' ' | cut -d ' ' -f 2`
-	curSpeed=`cat tempGPS.txt | grep "^Speed" | tr -s ' ' | cut -d ' ' -f 2`
+	curLat=`cat _temp/tempGPS.txt | grep "^Latitude" | tr -s ' ' | cut -d ' ' -f 2`
+	curLatRef=`cat _temp/tempGPS.txt | grep "^LatRef" | tr -s ' ' | cut -d ' ' -f 2`
+	curLon=`cat _temp/tempGPS.txt | grep "^Longitude" | tr -s ' ' | cut -d ' ' -f 2`
+	curLonRef=`cat _temp/tempGPS.txt | grep "^LonRef" | tr -s ' ' | cut -d ' ' -f 2`
+	curSpeed=`cat _temp/tempGPS.txt | grep "^Speed" | tr -s ' ' | cut -d ' ' -f 2`
 
 	#report current file info
 	echo -e "**Starting segment "$i"**\n"
@@ -68,7 +68,7 @@ do
 	exempi -w $fileName -s exif:GPSSpeedRef -v M
 
 	#delete tempGPS.txt
-	rm tempGPS.txt
+	rm _temp/tempGPS.txt
 
 	#report end
 	echo -e "**Done with segment " $i "**\n\n"

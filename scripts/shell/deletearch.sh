@@ -14,7 +14,7 @@ sleep 60s
 
 echo "New FileName: " "$new_video_fileName"
  
-sudo find /home/pi/CamProj/logs/python/ /home/pi/CamProj/logs/shell/ -mtime +30 -type f -name "*.log" -delete >> /home/pi/CamProj/logs/shell/$new_log_fileName 2>&1
+sudo find /home/pi/CarCam/logs/python/ /home/pi/CamProj/logs/shell/ -mtime +30 -type f -name "*.log" -delete >> /home/pi/CarCam/logs/shell/$new_log_fileName 2>&1
 
-sudo find /home/pi/CamProj/video/ -mtime +30 -type f -name "*.mp4" -delete >> /home/pi/CamProj/logs/shell/$new_video_fileName 2>&1
+sudo find /home/pi/CamCam/video/ -mtime +30 -type f -name "*.mp4" -delete >> /home/pi/CarCam/logs/shell/$new_video_fileName 2>&1
 
