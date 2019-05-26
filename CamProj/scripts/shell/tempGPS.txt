@@ -1,5 +1,0 @@
-Latitude:    29.672373833
-LatRef:      N
-Longitude:   82.376813667
-LonRef:      W
-Speed:       0.213

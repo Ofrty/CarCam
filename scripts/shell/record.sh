@@ -17,7 +17,7 @@
 ################################################################################
 
 #vars
-filePath=/home/pi/dashcam/video/
+filePath=/home/pi/CarCam/video
 i=1 #1-indexed. cray cray.
 vidRes=1024x576 #should always be a 16x9 aspect ratio
 vidTime=30
@@ -31,7 +31,7 @@ do
 
 	#create temp file for GPS info
 	touch tempGPS.txt
-	./gps_out.sh > tempGPS.txt
+	./_temp/gps_out.sh > tempGPS.txt
 
 	#get gps info via subshell
 	curLat=`cat tempGPS.txt | grep "^Latitude" | tr -s ' ' | cut -d ' ' -f 2`
@@ -41,7 +41,7 @@ do
 	curSpeed=`cat tempGPS.txt | grep "^Speed" | tr -s ' ' | cut -d ' ' -f 2`
 
 	#report current file info
-	echo -e "**Starting segment # "$i"**\n"
+	echo -e "**Starting segment "$i"**\n"
 	echo -e "Current Time : "$curTime "\n"
 	echo -e "FileName: "$fileName "\n"
 	echo -e "Current Latitude: "$curLat $curLatRef "\n"
@@ -49,7 +49,15 @@ do
 	echo -e "Current Speed: "$curSpeed "\n"
 
 	#This was the toughest part of the whole project to find the optimal settings for recording.
-	avconv -f alsa -ac 1 -thread_queue_size 2048 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -qscale 2 -sn -y -s $vidRes -aspect 16:9  $fileName
+	
+	#w/ noise gate; quality 8
+	avconv -f alsa -ac 1 -thread_queue_size 2048 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -qscale 8 -sn -y -s $vidRes -aspect 16:9 -af "compand=attacks=0:points=-80/-115|-20.1/-80|0/0/20/20"  $fileName
+
+	#w/o noise gate; quality 2
+	#avconv -f alsa -ac 1 -thread_queue_size 2048 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -qscale 2 -sn -y -s $vidRes -aspect 16:9  $fileName
+
+	#noise gate example
+	#-af "compand=.1|.1:.2|.2:-900/-900|-50.1/-900|-50/-50:.01:0:-90:.1"
 
 	#set GPS metadata with exempi
 	exempi -w $fileName -s exif:GPSLatitude -v $curLat
@@ -63,7 +71,7 @@ do
 	rm tempGPS.txt
 
 	#report end
-	echo -e "**Done with segment #" $i "**\n\n"
+	echo -e "**Done with segment " $i "**\n\n"
 
 	#increment counter
 	((i++))
