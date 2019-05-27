@@ -1,1 +1,4 @@
 video/
+_temp/
+logs/shell/*
+logs/python/*

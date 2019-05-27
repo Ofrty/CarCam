@@ -17,7 +17,7 @@
 ################################################################################
 
 #vars
-filePath=/home/pi/CarCam/video
+filePath=/home/pi/CarCam/video/
 i=1 #1-indexed. cray cray.
 vidRes=1024x576 #should always be a 16x9 aspect ratio
 vidTime=30
@@ -26,7 +26,7 @@ vidTime=30
 while :
 do
 	#set vars
-	curTime=$(date "+%Y-%m-%d__%H.%M.%S")
+	curTime=$(date "+%Y-%m-%d_%H.%M.%S_UCT%z")
 	fileName=$filePath"dashcam_"$curTime.avi
 
 	#create temp file for GPS info
@@ -51,7 +51,7 @@ do
 	#This was the toughest part of the whole project to find the optimal settings for recording.
 	
 	#w/ noise gate; quality 8
-	avconv -f alsa -ac 1 -thread_queue_size 2048 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -qscale 8 -sn -y -s $vidRes -aspect 16:9 -af "compand=attacks=0:points=-80/-115|-20.1/-80|0/0/20/20"  $fileName
+	avconv -thread_queue_size 2048 -f alsa -ac 1 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -q:v 8 -sn -y -s $vidRes -aspect 16:9 -af "compand=attacks=0:points=-80/-115|-20.1/-80|0/0/20/20"  $fileName
 
 	#w/o noise gate; quality 2
 	#avconv -f alsa -ac 1 -thread_queue_size 2048 -i hw:1 -thread_queue_size 2048 -i /dev/video0 -t $vidTime -threads 4 -async 1 -qscale 2 -sn -y -s $vidRes -aspect 16:9  $fileName
