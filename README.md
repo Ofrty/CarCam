@@ -8,9 +8,12 @@
  <br> b) Recording videos in increments of 30 seconds, in order to ultimately have more GPS data <br> <br>
   <br> c) Modified the avconv command to better suit my setup, and include audio.
 
-  These modifications are reflected in my script.
+  These modifications are reflected in my script. <br> <br>
 
-
+  Extra notes: <br>
+<br> - to set the scheduler, use command "crontab -e" and add the lines per the Instructable's instructions <br> <br> 
+<br>
+<br>
 # vijay2552007 original README 
 
   The scripts are part of a project - Car RaspBerry pi Dash Cam. Full explanation could be found under <br>
